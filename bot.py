@@ -1,8 +1,14 @@
+import json
+import os
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 from config import BOT_TOKEN
 from texts import *
-
+def load_codes():
+    if os.path.exists("codes.json"):
+        with open("codes.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
 
 main_menu = [
     ["📦 دریافت سفارش", "💎 خدمات و قیمت‌ها"],
@@ -45,11 +51,18 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ENTER_CODE
         )
 
-    else:
-        code = text.upper()
+  else:
+    code = text.upper()
 
+    codes = load_codes()
+
+    if code in codes:
         await update.message.reply_text(
-            f"کد دریافت شد:\n\n{code}\n\n(فعلاً فقط تست)"
+            PREPARING
+        )
+    else:
+        await update.message.reply_text(
+            INVALID_CODE
         )
 
 
