@@ -31,51 +31,55 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
+    user_id = update.effective_user.id
 
     if text == "💬 پشتیبانی":
+
         await update.message.reply_text(
             SUPPORT
         )
 
     elif text == "💎 خدمات و قیمت‌ها":
+
         await update.message.reply_text(
             SERVICES
         )
 
     elif text == "📖 راهنما":
+
         await update.message.reply_text(
             HELP
         )
 
-   elif text == "📦 دریافت سفارش":
+    elif text == "📦 دریافت سفارش":
 
-    waiting_for_code[update.effective_user.id] = True
+        waiting_for_code[user_id] = True
 
-    await update.message.reply_text(
-        ENTER_CODE
-    )
+        await update.message.reply_text(
+            ENTER_CODE
+        )
 
-   else:
+    else:
 
-    if waiting_for_code.get(update.effective_user.id):
+        if waiting_for_code.get(user_id):
 
-        waiting_for_code.pop(update.effective_user.id)
+            waiting_for_code.pop(user_id)
 
-        code = text.upper()
+            code = text.upper()
 
-        codes = load_codes()
+            codes = load_codes()
 
-        if code in codes:
+            if code in codes:
 
-            await update.message.reply_text(
-                PREPARING
-            )
+                await update.message.reply_text(
+                    PREPARING
+                )
 
-        else:
+            else:
 
-            await update.message.reply_text(
-                INVALID_CODE
-            )
+                await update.message.reply_text(
+                    INVALID_CODE
+                )
 
     else:
 
