@@ -51,20 +51,19 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ENTER_CODE
         )
 
-  else:
-    code = text.upper()
-
-    codes = load_codes()
-
-    if code in codes:
-        await update.message.reply_text(
-            PREPARING
-        )
     else:
-        await update.message.reply_text(
-            INVALID_CODE
-        )
+        code = text.upper()
 
+        codes = load_codes()
+
+        if code in codes:
+            await update.message.reply_text(
+                PREPARING
+            )
+        else:
+            await update.message.reply_text(
+                INVALID_CODE
+            )
 
 app = Application.builder().token(BOT_TOKEN).build()
 
