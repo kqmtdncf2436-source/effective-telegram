@@ -24,6 +24,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
+        else:
+        code = text.upper()
+
+        await update.message.reply_text(
+            f"کد دریافت شد:\n\n{code}\n\n(فعلاً فقط تست)"
+        )
 
     if text == "💬 پشتیبانی":
         await update.message.reply_text(
