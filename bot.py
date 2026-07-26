@@ -59,27 +59,37 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ENTER_CODE
         )
 
-    else:
+   else:
 
-        if waiting_for_code.get(user_id):
+    if waiting_for_code.get(user_id):
+
+        code = text.upper()
+
+        codes = load_codes()
+
+        if code in codes:
 
             waiting_for_code.pop(user_id)
 
-            code = text.upper()
+            await update.message.reply_text(
+                PREPARING
+            )
 
-            codes = load_codes()
+        else:
 
-            if code in codes:
+            await update.message.reply_text(
+                "❌ کد وارد شده معتبر نیست.\n\n"
+                "🔑 لطفاً دوباره کد سفارش خود را وارد کنید."
+            )
 
-                await update.message.reply_text(
-                    PREPARING
-                )
+    else:
 
-            else:
-
-                await update.message.reply_text(
-                    INVALID_CODE
-                )
+        await update.message.reply_text(
+            "🔔 برای استفاده از کد سفارش، "
+            "ابتدا وارد بخش:\n\n"
+            "📦 دریافت سفارش\n\n"
+            "شوید."
+        )
 
 app = Application.builder().token(BOT_TOKEN).build()
 
