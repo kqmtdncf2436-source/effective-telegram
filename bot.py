@@ -81,10 +81,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     INVALID_CODE
                 )
 
-    else:
-
-        return
-
 app = Application.builder().token(BOT_TOKEN).build()
 
 
