@@ -1,5 +1,6 @@
 import json
 import os
+from state import waiting_for_code
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 from config import BOT_TOKEN
@@ -46,24 +47,39 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             HELP
         )
 
-    elif text == "📦 دریافت سفارش":
-        await update.message.reply_text(
-            ENTER_CODE
-        )
+   elif text == "📦 دریافت سفارش":
 
-    else:
+    waiting_for_code[update.effective_user.id] = True
+
+    await update.message.reply_text(
+        ENTER_CODE
+    )
+
+   else:
+
+    if waiting_for_code.get(update.effective_user.id):
+
+        waiting_for_code.pop(update.effective_user.id)
+
         code = text.upper()
 
         codes = load_codes()
 
         if code in codes:
+
             await update.message.reply_text(
                 PREPARING
             )
+
         else:
+
             await update.message.reply_text(
                 INVALID_CODE
             )
+
+    else:
+
+        return
 
 app = Application.builder().token(BOT_TOKEN).build()
 
