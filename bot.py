@@ -3,11 +3,23 @@ from telegram.ext import Application, CommandHandler, MessageHandler, ContextTyp
 from config import BOT_TOKEN
 from texts import *
 
-# منوی اصلی
+
 main_menu = [
     ["📦 دریافت سفارش", "💎 خدمات و قیمت‌ها"],
     ["📖 راهنما", "💬 پشتیبانی"]
 ]
+
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = ReplyKeyboardMarkup(
+        main_menu,
+        resize_keyboard=True
+    )
+
+    await update.message.reply_text(
+        WELCOME,
+        reply_markup=keyboard
+    )
 
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -15,23 +27,22 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if text == "💬 پشتیبانی":
         await update.message.reply_text(
-            "💬 برای ارتباط با پشتیبانی:\n\n"
-            "@YOUR_USERNAME"
+            SUPPORT
         )
 
     elif text == "💎 خدمات و قیمت‌ها":
         await update.message.reply_text(
-            "💎 بخش خدمات و قیمت‌ها بزودی تکمیل می‌شود."
+            SERVICES
         )
 
     elif text == "📖 راهنما":
         await update.message.reply_text(
-            "📖 بخش راهنما بزودی تکمیل می‌شود."
+            HELP
         )
 
     elif text == "📦 دریافت سفارش":
         await update.message.reply_text(
-            "📦 لطفاً کد سفارش خود را وارد کنید."
+            ENTER_CODE
         )
 
     else:
@@ -46,6 +57,7 @@ app = Application.builder().token(BOT_TOKEN).build()
 
 
 app.add_handler(CommandHandler("start", start))
+
 
 app.add_handler(
     MessageHandler(filters.TEXT & ~filters.COMMAND, button_handler)
