@@ -1,7 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 from config import BOT_TOKEN
-
+from texts import *
 
 # منوی اصلی
 main_menu = [
@@ -17,9 +17,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     await update.message.reply_text(
-        "سلام 🌸\n\n"
-        "به پخش نهایی خوش آمدید.\n\n"
-        "لطفاً یکی از گزینه‌های زیر را انتخاب کنید:",
+    WELCOME,
         reply_markup=keyboard
     )
 
