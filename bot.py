@@ -10,26 +10,8 @@ main_menu = [
 ]
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = ReplyKeyboardMarkup(
-        main_menu,
-        resize_keyboard=True
-    )
-
-    await update.message.reply_text(
-    WELCOME,
-        reply_markup=keyboard
-    )
-
-
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
-        else:
-        code = text.upper()
-
-        await update.message.reply_text(
-            f"کد دریافت شد:\n\n{code}\n\n(فعلاً فقط تست)"
-        )
 
     if text == "💬 پشتیبانی":
         await update.message.reply_text(
@@ -50,6 +32,13 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "📦 دریافت سفارش":
         await update.message.reply_text(
             "📦 لطفاً کد سفارش خود را وارد کنید."
+        )
+
+    else:
+        code = text.upper()
+
+        await update.message.reply_text(
+            f"کد دریافت شد:\n\n{code}\n\n(فعلاً فقط تست)"
         )
 
 
