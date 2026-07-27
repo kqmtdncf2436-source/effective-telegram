@@ -15,6 +15,63 @@ from codes import (
 waiting_for_code = {}
 
 
+async def send_file(update, context, code):
+
+    data = get_code(code)
+
+    if not data:
+        return
+
+
+    progress = await update.message.reply_text(
+        PREPARING_20
+    )
+
+    await asyncio.sleep(1)
+
+    await progress.edit_text(
+        PREPARING_40
+    )
+
+    await asyncio.sleep(1)
+
+    await progress.edit_text(
+        PREPARING_60
+    )
+
+    await asyncio.sleep(1)
+
+    await progress.edit_text(
+        PREPARING_80
+    )
+
+    await asyncio.sleep(1)
+
+    await progress.edit_text(
+        SENDING
+    )
+
+
+    await asyncio.sleep(1)
+
+
+    await context.bot.copy_message(
+        chat_id=update.effective_chat.id,
+        from_chat_id=data["channel_id"],
+        message_id=data["message_id"]
+    )
+
+
+    await progress.delete()
+
+
+    mark_used(
+        code,
+        update.effective_user.id
+    )
+
+
+
 async def button_handler(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
@@ -25,26 +82,17 @@ async def button_handler(
 
 
     if text == "💬 پشتیبانی":
-
-        await update.message.reply_text(
-            SUPPORT
-        )
+        await update.message.reply_text(SUPPORT)
         return
 
 
     if text == "💎 خدمات و قیمت‌ها":
-
-        await update.message.reply_text(
-            SERVICES
-        )
+        await update.message.reply_text(SERVICES)
         return
 
 
     if text == "📖 راهنما":
-
-        await update.message.reply_text(
-            HELP
-        )
+        await update.message.reply_text(HELP)
         return
 
 
@@ -55,6 +103,7 @@ async def button_handler(
         await update.message.reply_text(
             ENTER_CODE
         )
+
         return
 
 
@@ -73,7 +122,6 @@ async def button_handler(
             return
 
 
-
         if user_used(code, user_id):
 
             await update.message.reply_text(
@@ -83,25 +131,14 @@ async def button_handler(
             return
 
 
+        waiting_for_code.pop(user_id)
 
-        mark_used(
-            code,
-            user_id
+
+        await send_file(
+            update,
+            context,
+            code
         )
-
-
-        await update.message.reply_text(
-            PREPARING
-        )
-
-
-        await asyncio.sleep(2)
-
-
-        await update.message.reply_text(
-            SENDING
-        )
-
 
         return
 
