@@ -52,7 +52,7 @@ async def send_file(update, context, code):
     )
 
 
-    await asyncio.sleep(1)
+    await asyncio.sleep(4)
 
 
     await context.bot.copy_message(
