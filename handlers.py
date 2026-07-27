@@ -1,5 +1,5 @@
 import asyncio
-
+from config import ADMIN_ID
 from telegram import Update
 from telegram.ext import ContextTypes
 
