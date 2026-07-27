@@ -5,6 +5,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from texts import *
+
 from codes import (
     code_exists,
     user_used,
@@ -14,7 +15,11 @@ from codes import (
 
 
 waiting_for_code = {}
+
 admin_state = {}
+
+admin_temp = {}
+
 
 
 async def send_file(update, context, code):
@@ -52,6 +57,7 @@ async def send_file(update, context, code):
     await progress.edit_text(
         SENDING
     )
+
 
     await asyncio.sleep(4)
 
@@ -104,13 +110,60 @@ async def add_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
+async def handle_forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    user_id = update.effective_user.id
+
+
+    if user_id != ADMIN_ID:
+        return
+
+
+    if admin_state.get(ADMIN_ID) != "waiting_forward":
+        return
+
+
+    message = update.message
+
+
+    if not message.forward_from_chat:
+
+        await message.reply_text(
+            "❌ لطفاً یک پست از کانال فوروارد کنید."
+        )
+
+        return
+
+
+
+    admin_temp[ADMIN_ID] = {
+
+        "channel_id": message.forward_from_chat.id,
+
+        "message_id": message.forward_from_message_id
+
+    }
+
+
+    admin_state[ADMIN_ID] = "waiting_code"
+
+
+    await message.reply_text(
+        "✅ فایل شناسایی شد.\n\n"
+        "🔑 حالا کد فایل را وارد کن."
+    )
+
+
+
 async def button_handler(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
 ):
 
     text = update.message.text
+
     user_id = update.effective_user.id
+
 
 
     if text == "💬 پشتیبانی":
@@ -118,7 +171,9 @@ async def button_handler(
         await update.message.reply_text(
             SUPPORT
         )
+
         return
+
 
 
     if text == "💎 خدمات و قیمت‌ها":
@@ -126,7 +181,9 @@ async def button_handler(
         await update.message.reply_text(
             SERVICES
         )
+
         return
+
 
 
     if text == "📖 راهنما":
@@ -134,16 +191,20 @@ async def button_handler(
         await update.message.reply_text(
             HELP
         )
+
         return
+
 
 
     if text == "📦 دریافت سفارش":
 
         waiting_for_code[user_id] = True
 
+
         await update.message.reply_text(
             ENTER_CODE
         )
+
         return
 
 
@@ -158,7 +219,9 @@ async def button_handler(
             await update.message.reply_text(
                 INVALID_CODE
             )
+
             return
+
 
 
         if user_used(code, user_id):
@@ -166,7 +229,9 @@ async def button_handler(
             await update.message.reply_text(
                 USED_CODE
             )
+
             return
+
 
 
         waiting_for_code.pop(
@@ -179,6 +244,7 @@ async def button_handler(
             context,
             code
         )
+
 
         return
 
