@@ -95,3 +95,40 @@ def delete_code(code):
     save_codes(codes)
 
     return True
+
+
+def update_code(old_code, new_code=None, new_title=None):
+
+    codes = load_codes()
+
+    if old_code not in codes:
+        return False
+
+    data = codes[old_code]
+
+    if new_title is not None:
+        data["title"] = new_title
+
+    if new_code is not None:
+
+        codes[new_code] = data
+
+        del codes[old_code]
+
+    save_codes(codes)
+
+    return True
+
+def update_title(code, new_title):
+
+    codes = load_codes()
+
+    if code not in codes:
+        return False
+
+    codes[code]["title"] = new_title
+
+    save_codes(codes)
+
+    return True
+    
