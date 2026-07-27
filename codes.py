@@ -9,40 +9,26 @@ def load_codes():
     if not os.path.exists(CODES_FILE):
         return {}
 
-    with open(
-        CODES_FILE,
-        "r",
-        encoding="utf-8"
-    ) as f:
-
+    with open(CODES_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def save_codes(codes):
 
-    with open(
-        CODES_FILE,
-        "w",
-        encoding="utf-8"
-    ) as f:
-
+    with open(CODES_FILE, "w", encoding="utf-8") as f:
         json.dump(
             codes,
             f,
             ensure_ascii=False,
-            indent=4
+            indent=4,
         )
 
-
-# --------------------------
-# ثبت فایل جدید
-# --------------------------
 
 def save_code(
     code,
     channel_id,
     message_id,
-    title=""
+    title="بدون عنوان"
 ):
 
     codes = load_codes()
@@ -57,31 +43,15 @@ def save_code(
     save_codes(codes)
 
 
-# --------------------------
-# بررسی وجود کد
-# --------------------------
-
 def code_exists(code):
 
-    codes = load_codes()
+    return code in load_codes()
 
-    return code in codes
-
-
-# --------------------------
-# دریافت اطلاعات کد
-# --------------------------
 
 def get_code(code):
 
-    codes = load_codes()
+    return load_codes().get(code)
 
-    return codes.get(code)
-
-
-# --------------------------
-# بررسی استفاده کاربر
-# --------------------------
 
 def user_used(code, user_id):
 
@@ -92,10 +62,6 @@ def user_used(code, user_id):
 
     return str(user_id) in codes[code]["used"]
 
-
-# --------------------------
-# ثبت استفاده
-# --------------------------
 
 def mark_used(code, user_id):
 
@@ -110,3 +76,8 @@ def mark_used(code, user_id):
         codes[code]["used"].append(uid)
 
     save_codes(codes)
+
+
+def get_all_codes():
+
+    return load_codes()
