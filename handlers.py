@@ -61,7 +61,20 @@ async def send_file(update, context, code):
         message_id=data["message_id"]
     )
 
-
+await context.bot.send_message(
+    chat_id=ADMIN_ID,
+    text=(
+        "✅ فایل تحویل شد\n\n"
+        f"👤 کاربر:\n"
+        f"{update.effective_user.first_name}\n\n"
+        f"🆔 آیدی:\n"
+        f"{update.effective_user.id}\n\n"
+        f"🔑 کد:\n"
+        f"{code}\n\n"
+        f"📁 فایل:\n"
+        f"{data.get('title','بدون نام')}"
+    )
+)
     await progress.delete()
 
 
