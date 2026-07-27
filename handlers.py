@@ -114,39 +114,42 @@ async def handle_forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user_id = update.effective_user.id
 
-
     if user_id != ADMIN_ID:
         return
-
 
     if admin_state.get(ADMIN_ID) != "waiting_forward":
         return
 
-
     message = update.message
 
-
-    if not message.forward_from_chat:
+    # فقط اگر پیام فوروارد نباشد
+    if message.forward_origin is None:
 
         await message.reply_text(
-            "❌ لطفاً یک پست از کانال فوروارد کنید."
+            "❌ لطفاً یک پست از کانال را فوروارد کن."
         )
-
         return
 
+    origin = message.forward_origin
 
+    try:
+
+        channel_id = origin.chat.id
+        message_id = origin.message_id
+
+    except Exception:
+
+        await message.reply_text(
+            "❌ این پیام از کانال فوروارد نشده است."
+        )
+        return
 
     admin_temp[ADMIN_ID] = {
-
-        "channel_id": message.forward_from_chat.id,
-
-        "message_id": message.forward_from_message_id
-
+        "channel_id": channel_id,
+        "message_id": message_id,
     }
 
-
     admin_state[ADMIN_ID] = "waiting_code"
-
 
     await message.reply_text(
         "✅ فایل شناسایی شد.\n\n"
