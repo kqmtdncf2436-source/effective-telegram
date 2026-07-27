@@ -14,6 +14,7 @@ from codes import (
 
 
 waiting_for_code = {}
+admin_state = {}
 
 
 async def send_file(update, context, code):
@@ -88,6 +89,21 @@ async def send_file(update, context, code):
 
 
 
+async def add_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+
+    admin_state[ADMIN_ID] = "waiting_forward"
+
+
+    await update.message.reply_text(
+        ADMIN_START
+    )
+
+
+
 async def button_handler(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
@@ -145,14 +161,12 @@ async def button_handler(
             return
 
 
-
         if user_used(code, user_id):
 
             await update.message.reply_text(
                 USED_CODE
             )
             return
-
 
 
         waiting_for_code.pop(
@@ -173,16 +187,3 @@ async def button_handler(
     await update.message.reply_text(
         UNKNOWN_MESSAGE
     )
-async def add_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    if update.effective_user.id != ADMIN_ID:
-        return
-
-    waiting_for_code[update.effective_user.id] = "waiting_forward"
-
-    await update.message.reply_text(
-        ADMIN_START
-    )
-
-
-
