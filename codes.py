@@ -81,3 +81,17 @@ def mark_used(code, user_id):
 def get_all_codes():
 
     return load_codes()
+
+
+def delete_code(code):
+
+    codes = load_codes()
+
+    if code not in codes:
+        return False
+
+    del codes[code]
+
+    save_codes(codes)
+
+    return True
