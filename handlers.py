@@ -17,6 +17,7 @@ from codes import (
     save_code,
     get_all_codes,
     delete_code,
+    update_title,
 )
 
 
@@ -273,6 +274,39 @@ async def delete_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         await update.message.reply_text(
             "❌ این کد پیدا نشد."
+        )
+
+
+
+async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    args = context.args
+
+    if len(args) < 2:
+
+        await update.message.reply_text(
+            "❌ مثال:\n/edit ABC123 عنوان جدید"
+        )
+
+        return
+
+    code = args[0].upper()
+
+    new_title = " ".join(args[1:])
+
+    if update_title(code, new_title):
+
+        await update.message.reply_text(
+            "✅ عنوان فایل بروزرسانی شد."
+        )
+
+    else:
+
+        await update.message.reply_text(
+            "❌ کد پیدا نشد."
         )
 
 async def handle_forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
