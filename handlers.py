@@ -144,7 +144,7 @@ async def list_files(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         i += 1
         
- await update.message.reply_text(text)
+    await update.message.reply_text(text)
 
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
