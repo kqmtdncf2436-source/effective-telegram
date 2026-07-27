@@ -1,7 +1,6 @@
 import json
 import os
 
-
 CODES_FILE = "codes.json"
 
 
@@ -35,6 +34,33 @@ def save_codes(codes):
         )
 
 
+# --------------------------
+# ثبت فایل جدید
+# --------------------------
+
+def save_code(
+    code,
+    channel_id,
+    message_id,
+    title=""
+):
+
+    codes = load_codes()
+
+    codes[code] = {
+        "channel_id": channel_id,
+        "message_id": message_id,
+        "title": title,
+        "used": []
+    }
+
+    save_codes(codes)
+
+
+# --------------------------
+# بررسی وجود کد
+# --------------------------
+
 def code_exists(code):
 
     codes = load_codes()
@@ -42,12 +68,20 @@ def code_exists(code):
     return code in codes
 
 
+# --------------------------
+# دریافت اطلاعات کد
+# --------------------------
+
 def get_code(code):
 
     codes = load_codes()
 
     return codes.get(code)
 
+
+# --------------------------
+# بررسی استفاده کاربر
+# --------------------------
 
 def user_used(code, user_id):
 
@@ -58,6 +92,10 @@ def user_used(code, user_id):
 
     return str(user_id) in codes[code]["used"]
 
+
+# --------------------------
+# ثبت استفاده
+# --------------------------
 
 def mark_used(code, user_id):
 
