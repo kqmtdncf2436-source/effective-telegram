@@ -11,6 +11,7 @@ from codes import (
     user_used,
     mark_used,
     get_code,
+    save_code,
 )
 
 
@@ -57,7 +58,6 @@ async def send_file(update, context, code):
     await progress.edit_text(
         SENDING
     )
-
 
     await asyncio.sleep(4)
 
@@ -112,44 +112,54 @@ async def add_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    user_id = update.effective_user.id
-
-    if user_id != ADMIN_ID:
+    if update.effective_user.id != ADMIN_ID:
         return
+
 
     if admin_state.get(ADMIN_ID) != "waiting_forward":
         return
 
+
     message = update.message
 
-    # فقط اگر پیام فوروارد نباشد
+
     if message.forward_origin is None:
 
         await message.reply_text(
-            "❌ لطفاً یک پست از کانال را فوروارد کن."
+            "❌ لطفاً پست کانال را فوروارد کن."
         )
+
         return
 
+
     origin = message.forward_origin
+
 
     try:
 
         channel_id = origin.chat.id
         message_id = origin.message_id
 
-    except Exception:
+    except:
 
         await message.reply_text(
-            "❌ این پیام از کانال فوروارد نشده است."
+            "❌ اطلاعات پست دریافت نشد."
         )
+
         return
 
+
+
     admin_temp[ADMIN_ID] = {
+
         "channel_id": channel_id,
-        "message_id": message_id,
+        "message_id": message_id
+
     }
 
+
     admin_state[ADMIN_ID] = "waiting_code"
+
 
     await message.reply_text(
         "✅ فایل شناسایی شد.\n\n"
@@ -164,8 +174,57 @@ async def button_handler(
 ):
 
     text = update.message.text
-
     user_id = update.effective_user.id
+
+
+
+    # ثبت کد توسط ادمین
+
+    if (
+        user_id == ADMIN_ID
+        and admin_state.get(ADMIN_ID) == "waiting_code"
+    ):
+
+        code = text.upper()
+
+        data = admin_temp.get(ADMIN_ID)
+
+
+        if not data:
+
+            await update.message.reply_text(
+                "❌ اطلاعات فایل پیدا نشد."
+            )
+
+            return
+
+
+        save_code(
+            code,
+            data["channel_id"],
+            data["message_id"]
+        )
+
+
+        admin_state.pop(
+            ADMIN_ID,
+            None
+        )
+
+
+        admin_temp.pop(
+            ADMIN_ID,
+            None
+        )
+
+
+        await update.message.reply_text(
+            "✅ فایل ثبت شد.\n\n"
+            f"🔑 کد:\n{code}"
+        )
+
+
+        return
 
 
 
@@ -247,7 +306,6 @@ async def button_handler(
             context,
             code
         )
-
 
         return
 
