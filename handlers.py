@@ -109,6 +109,38 @@ async def add_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def list_files(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    codes = get_all_codes()
+
+    if not codes:
+
+        await update.message.reply_text(
+            "📭 هنوز هیچ فایلی ثبت نشده است."
+        )
+
+        return
+
+    text = "📦 لیست فایل‌های ثبت شده\n\n"
+
+    i = 1
+
+    for code, data in codes.items():
+
+        text += (
+            f"{i}️⃣\n"
+            f"🔑 کد: {code}\n"
+            f"📁 عنوان: {data.get('title','بدون عنوان')}\n"
+            f"👥 تعداد استفاده: {len(data.get('used', []))}\n\n"
+        )
+
+        i += 1
+
+    await update.message.reply_text(text)
+    
 
 async def handle_forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
