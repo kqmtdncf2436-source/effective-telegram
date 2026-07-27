@@ -14,6 +14,7 @@ from handlers import (
     button_handler,
     add_file,
     handle_forward,
+    list_files,
 )
 
 main_menu = [
@@ -56,6 +57,13 @@ app.add_handler(
     MessageHandler(
         filters.FORWARDED,
         handle_forward,
+    )
+)
+
+app.add_handler(
+    CommandHandler(
+        "list",
+        list_files,
     )
 )
 
