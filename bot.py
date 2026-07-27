@@ -47,4 +47,5 @@ app.add_handler(
     )
 )
 
+app.add_handler(CommandHandler("add", add_file))
 app.run_polling()
