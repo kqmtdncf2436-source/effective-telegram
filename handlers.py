@@ -1,4 +1,5 @@
 import asyncio
+
 from config import ADMIN_ID
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -51,15 +52,15 @@ async def send_file(update, context, code):
         SENDING
     )
 
-
     await asyncio.sleep(4)
 
 
-        await context.bot.copy_message(
+    await context.bot.copy_message(
         chat_id=update.effective_chat.id,
         from_chat_id=data["channel_id"],
         message_id=data["message_id"]
     )
+
 
     await context.bot.send_message(
         chat_id=ADMIN_ID,
@@ -76,7 +77,9 @@ async def send_file(update, context, code):
         )
     )
 
+
     await progress.delete()
+
 
     mark_used(
         code,
@@ -95,17 +98,26 @@ async def button_handler(
 
 
     if text == "💬 پشتیبانی":
-        await update.message.reply_text(SUPPORT)
+
+        await update.message.reply_text(
+            SUPPORT
+        )
         return
 
 
     if text == "💎 خدمات و قیمت‌ها":
-        await update.message.reply_text(SERVICES)
+
+        await update.message.reply_text(
+            SERVICES
+        )
         return
 
 
     if text == "📖 راهنما":
-        await update.message.reply_text(HELP)
+
+        await update.message.reply_text(
+            HELP
+        )
         return
 
 
@@ -116,7 +128,6 @@ async def button_handler(
         await update.message.reply_text(
             ENTER_CODE
         )
-
         return
 
 
@@ -131,8 +142,8 @@ async def button_handler(
             await update.message.reply_text(
                 INVALID_CODE
             )
-
             return
+
 
 
         if user_used(code, user_id):
@@ -140,11 +151,13 @@ async def button_handler(
             await update.message.reply_text(
                 USED_CODE
             )
-
             return
 
 
-        waiting_for_code.pop(user_id)
+
+        waiting_for_code.pop(
+            user_id
+        )
 
 
         await send_file(
