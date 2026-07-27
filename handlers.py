@@ -223,17 +223,50 @@ async def search_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
             result
         )
 
-
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if update.effective_user.id != ADMIN_ID:
         return
 
+    args = context.args
+
+    if not args:
+
+        await update.message.reply_text(
+            "❌ مثال:\n/broadcast سلام به همه"
+        )
+
+        return
+
+    text = " ".join(args)
+
+    users = get_all_users()
+
+    sent = 0
+
+    failed = 0
+
+    for uid in users:
+
+        try:
+
+            await context.bot.send_message(
+                chat_id=int(uid),
+                text=text
+            )
+
+            sent += 1
+
+        except:
+
+            failed += 1
+
+
     await update.message.reply_text(
-        "⏳ این بخش را بعداً کامل می‌کنیم."
+        f"✅ ارسال تمام شد\n\n"
+        f"📨 موفق: {sent}\n"
+        f"❌ ناموفق: {failed}"
     )
-
-
 
 async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
