@@ -1,6 +1,8 @@
 {
   "ABC123": {
-    "file": "PACK001",
-    "used_users": []
+    "chat_id": -1004294354636,
+    "message_id": 6,
+    "title": "نمونه",
+    "used": []
   }
 }
