@@ -173,3 +173,16 @@ async def button_handler(
     await update.message.reply_text(
         UNKNOWN_MESSAGE
     )
+async def add_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    waiting_for_code[update.effective_user.id] = "waiting_forward"
+
+    await update.message.reply_text(
+        ADMIN_START
+    )
+
+
+
