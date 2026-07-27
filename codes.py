@@ -131,4 +131,18 @@ def update_title(code, new_title):
     save_codes(codes)
 
     return True
+
+
+def get_all_users():
+
+    codes = load_codes()
+
+    users = set()
+
+    for data in codes.values():
+
+        for user in data.get("used", []):
+            users.add(user)
+
+    return list(users)
     
