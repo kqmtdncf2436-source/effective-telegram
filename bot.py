@@ -9,7 +9,7 @@ from telegram.ext import (
 
 from config import BOT_TOKEN
 from texts import *
-from handlers import button_handler
+from handlers import button_handler, add_file
 
 
 main_menu = [
@@ -41,11 +41,17 @@ app.add_handler(
 )
 
 app.add_handler(
+    CommandHandler(
+        "add",
+        add_file,
+    )
+)
+
+app.add_handler(
     MessageHandler(
         filters.TEXT & ~filters.COMMAND,
         button_handler,
     )
 )
 
-app.add_handler(CommandHandler("add", add_file))
 app.run_polling()
