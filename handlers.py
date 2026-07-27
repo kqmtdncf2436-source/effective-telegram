@@ -181,29 +181,9 @@ async def search_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
 
     if not args:
-
         await update.message.reply_text(
             "❌ مثال:\n/search ABC"
         )
-
-       async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    if update.effective_user.id != ADMIN_ID:
-        return
-
-    await update.message.reply_text(
-        "⏳ این بخش را بعداً کامل می‌کنیم."
-    )
-
-async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    if update.effective_user.id != ADMIN_ID:
-        return
-
-    await update.message.reply_text(
-        "⏳ این بخش را بعداً کامل می‌کنیم."
-    )
-
         return
 
     keyword = " ".join(args).upper()
@@ -228,6 +208,7 @@ async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             i += 1
 
+
     if result == "":
 
         await update.message.reply_text(
@@ -239,6 +220,27 @@ async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             result
         )
+
+
+async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    await update.message.reply_text(
+        "⏳ این بخش را بعداً کامل می‌کنیم."
+    )
+
+
+
+async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    await update.message.reply_text(
+        "⏳ این بخش را بعداً کامل می‌کنیم."
+    )
     
 
 async def delete_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
