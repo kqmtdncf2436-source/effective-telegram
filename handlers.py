@@ -27,25 +27,25 @@ async def send_file(update, context, code):
         PREPARING_20
     )
 
-    await asyncio.sleep(1)
+    await asyncio.sleep(2)
 
     await progress.edit_text(
         PREPARING_40
     )
 
-    await asyncio.sleep(1)
+    await asyncio.sleep(2)
 
     await progress.edit_text(
         PREPARING_60
     )
 
-    await asyncio.sleep(1)
+    await asyncio.sleep(2)
 
     await progress.edit_text(
         PREPARING_80
     )
 
-    await asyncio.sleep(1)
+    await asyncio.sleep(2)
 
     await progress.edit_text(
         SENDING
