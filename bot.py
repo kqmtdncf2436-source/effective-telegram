@@ -9,8 +9,12 @@ from telegram.ext import (
 
 from config import BOT_TOKEN
 from texts import *
-from handlers import button_handler, add_file
 
+from handlers import (
+    button_handler,
+    add_file,
+    handle_forward,
+)
 
 main_menu = [
     ["📦 دریافت سفارش", "💎 خدمات و قیمت‌ها"],
@@ -33,6 +37,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 app = Application.builder().token(BOT_TOKEN).build()
 
+
 app.add_handler(
     CommandHandler(
         "start",
@@ -44,6 +49,13 @@ app.add_handler(
     CommandHandler(
         "add",
         add_file,
+    )
+)
+
+app.add_handler(
+    MessageHandler(
+        filters.FORWARDED,
+        handle_forward,
     )
 )
 
