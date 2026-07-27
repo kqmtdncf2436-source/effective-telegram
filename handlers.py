@@ -143,8 +143,102 @@ async def list_files(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
         i += 1
+        
+ await update.message.reply_text(text)
 
-    await update.message.reply_text(text)
+async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    codes = get_all_codes()
+
+    total_files = len(codes)
+
+    users = set()
+    downloads = 0
+
+    for data in codes.values():
+
+        downloads += len(data.get("used", []))
+
+        for user in data.get("used", []):
+            users.add(user)
+
+
+    await update.message.reply_text(
+        "📊 آمار ربات\n\n"
+        f"📦 تعداد فایل‌ها: {total_files}\n\n"
+        f"👥 کاربران یکتا: {len(users)}\n\n"
+        f"📥 تعداد دانلودها: {downloads}"
+    )
+
+async def search_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    args = context.args
+
+    if not args:
+
+        await update.message.reply_text(
+            "❌ مثال:\n/search ABC"
+        )
+
+       async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    await update.message.reply_text(
+        "⏳ این بخش را بعداً کامل می‌کنیم."
+    )
+
+async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    await update.message.reply_text(
+        "⏳ این بخش را بعداً کامل می‌کنیم."
+    )
+
+        return
+
+    keyword = " ".join(args).upper()
+
+    codes = get_all_codes()
+
+    result = ""
+
+    i = 1
+
+    for code, data in codes.items():
+
+        title = data.get("title", "").upper()
+
+        if keyword in code or keyword in title:
+
+            result += (
+                f"{i}️⃣\n"
+                f"🔑 {code}\n"
+                f"📁 {data.get('title','بدون عنوان')}\n\n"
+            )
+
+            i += 1
+
+    if result == "":
+
+        await update.message.reply_text(
+            "❌ چیزی پیدا نشد."
+        )
+
+    else:
+
+        await update.message.reply_text(
+            result
+        )
     
 
 async def delete_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
