@@ -7,6 +7,8 @@ from telegram.ext import ContextTypes
 from texts import *
 
 
+
+
 from codes import (
     code_exists,
     user_used,
@@ -14,6 +16,7 @@ from codes import (
     get_code,
     save_code,
     get_all_codes,
+    delete_code,
 )
 
 
@@ -143,6 +146,38 @@ async def list_files(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(text)
     
+
+async def delete_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    args = context.args
+
+    if not args:
+
+        await update.message.reply_text(
+            "❌ کد فایل را بعد از دستور وارد کن.\n\nمثال:\n/delete ABC123"
+        )
+
+        return
+
+
+    code = args[0].upper()
+
+
+    if delete_code(code):
+
+        await update.message.reply_text(
+            "🗑 فایل حذف شد.\n\n"
+            f"🔑 کد:\n{code}"
+        )
+
+    else:
+
+        await update.message.reply_text(
+            "❌ این کد پیدا نشد."
+        )
 
 async def handle_forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
