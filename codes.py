@@ -120,19 +120,25 @@ def update_code(old_code, new_code=None, new_title=None):
     return True
 
 def update_title(code, new_title):
+
     print(os.path.abspath(CODES_FILE))
 
     codes = load_codes()
+
+    print("قبل:", codes)
 
     if code not in codes:
         return False
 
     codes[code]["title"] = new_title
 
+    print("بعد:", codes)
+
     save_codes(codes)
 
-    return True
+    print("ذخیره شد")
 
+    return True
 
 def get_all_users():
 
