@@ -120,6 +120,7 @@ def update_code(old_code, new_code=None, new_title=None):
     return True
 
 def update_title(code, new_title):
+    print(os.path.abspath(CODES_FILE))
 
     codes = load_codes()
 
