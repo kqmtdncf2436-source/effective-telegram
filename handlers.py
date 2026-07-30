@@ -547,3 +547,21 @@ async def button_handler(
     await update.message.reply_text(
         UNKNOWN_MESSAGE
     )
+
+async def admin_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    from telegram import ReplyKeyboardMarkup
+
+    keyboard = ReplyKeyboardMarkup(
+        ADMIN_MENU,
+        resize_keyboard=True,
+    )
+
+    await update.message.reply_text(
+        "🛠 پنل مدیریت",
+        reply_markup=keyboard,
+    )
+    
