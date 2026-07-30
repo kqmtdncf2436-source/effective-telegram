@@ -52,6 +52,14 @@ app.add_handler(
     )
 )
 
+
+app.add_handler(
+    CommandHandler(
+        "panel",
+        admin_menu,
+    )
+)
+
 app.add_handler(
     CommandHandler(
         "add",
