@@ -268,14 +268,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"❌ ناموفق: {failed}"
     )
 
-async def edit_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    if update.effective_user.id != ADMIN_ID:
-        return
-
-    await update.message.reply_text(
-        "⏳ این بخش را بعداً کامل می‌کنیم."
-    )
     
 
 async def delete_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -460,7 +453,12 @@ async def button_handler(
         return
 
 
+if text == "🛠 پنل مدیریت":
 
+    await admin_menu(update, context)
+
+    return
+    
     if text == "💬 پشتیبانی":
 
         await update.message.reply_text(
