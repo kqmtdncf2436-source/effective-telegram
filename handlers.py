@@ -393,7 +393,6 @@ async def handle_forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-
 async def button_handler(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
@@ -401,7 +400,6 @@ async def button_handler(
 
     text = update.message.text
     user_id = update.effective_user.id
-
 
 
     # ثبت کد توسط ادمین
@@ -456,7 +454,35 @@ async def button_handler(
         await admin_menu(update, context)
 
         return
-    
+
+    if text == "➕ افزودن فایل":
+        await add_file(update, context)
+        return
+
+    if text == "📦 لیست فایل‌ها":
+        await list_files(update, context)
+        return
+
+    if text == "📊 آمار":
+        await stats(update, context)
+        return
+
+    if text == "🔍 جستجو":
+        await update.message.reply_text("مثال:\n/search ABC123")
+        return
+
+    if text == "✏️ ویرایش":
+        await update.message.reply_text("مثال:\n/edit ABC123 عنوان جدید")
+        return
+
+    if text == "🗑 حذف":
+        await update.message.reply_text("مثال:\n/delete ABC123")
+        return
+
+    if text == "📢 پیام همگانی":
+        await update.message.reply_text("مثال:\n/broadcast سلام")
+        return
+
     if text == "💬 پشتیبانی":
 
         await update.message.reply_text(
@@ -466,7 +492,6 @@ async def button_handler(
         return
 
 
-
     if text == "💎 خدمات و قیمت‌ها":
 
         await update.message.reply_text(
@@ -474,8 +499,6 @@ async def button_handler(
         )
 
         return
-
-
 
     if text == "📖 راهنما":
 
@@ -497,7 +520,6 @@ async def button_handler(
         )
 
         return
-
 
 
     if waiting_for_code.get(user_id):
@@ -537,7 +559,6 @@ async def button_handler(
         )
 
         return
-
 
 
     await update.message.reply_text(
