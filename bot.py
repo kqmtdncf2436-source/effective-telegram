@@ -15,11 +15,12 @@ from handlers import (
     add_file,
     handle_forward,
     list_files,
-    delete_file,
     stats,
     broadcast,
     edit_file,
     search_file,
+    delete_file,
+    admin_menu,
 )
 
 main_menu = [
@@ -59,6 +60,20 @@ app.add_handler(
 )
 
 app.add_handler(
+    CommandHandler(
+        "delete",
+        delete_file,
+    )
+)
+
+app.add_handler(
+    CommandHandler(
+        "edit",
+        edit_file,
+    )
+)
+
+app.add_handler(
     MessageHandler(
         filters.FORWARDED,
         handle_forward,
@@ -71,15 +86,6 @@ app.add_handler(
         list_files,
     )
 )
-
-
-app.add_handler(
-    CommandHandler(
-        "delete",
-        delete_file,
-    )
-)
-
 
 app.add_handler(
     CommandHandler(
@@ -97,17 +103,11 @@ app.add_handler(
 
 app.add_handler(
     CommandHandler(
-        "edit",
-        edit_file,
-    )
-)
-
-app.add_handler(
-    CommandHandler(
         "search",
         search_file,
     )
 )
+
 
 app.add_handler(
     MessageHandler(
