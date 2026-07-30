@@ -449,15 +449,13 @@ async def button_handler(
             f"🔑 کد:\n{code}"
         )
 
+        return
+        
+    if text == "🛠 پنل مدیریت":
+
+        await admin_menu(update, context)
 
         return
-
-
-if text == "🛠 پنل مدیریت":
-
-    await admin_menu(update, context)
-
-    return
     
     if text == "💬 پشتیبانی":
 
